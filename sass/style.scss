@@ -1,0 +1,90 @@
+@use "sass:map";
+
+$breakpoints: (
+  sp: "not screen and (min-width: 768px)",
+  pc: "screen and (min-width: 768px)",
+) !default;
+
+@mixin mq($breakpoint: pc) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+.tabs {
+  margin-top: 45px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #2392db;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // 3列均等割り
+  grid-template-rows: auto auto; // 2行
+  overflow: hidden;
+}
+
+// ラジオボタンを非表示にする
+.tabs__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+
+  &:checked + .tabs__button {
+    color: #fff;
+    background: #2392db;
+  }
+
+  // フォーカス時に見た目を変える
+  &:focus + .tabs__button {
+  }
+}
+
+.tabs__button {
+  display: block;
+  padding: 15px 0;
+  text-align: center;
+  color: #2392db;
+  font-weight: 700;
+  background: #fff;
+  border-bottom: 2px solid #2392db;
+  transition: all 0.3s;
+
+  &:nth-of-type(n + 2) {
+    border-left: 2px solid #2392db;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.tabs__content {
+  grid-column: 1 / -1; // 1列目から最後の列までをカバー
+  // height: 0;
+  // opacity: 0;
+  // transform: translateX(-30%);
+  // pointer-events: none;
+  // transition: transform 0.3s, opacity 0.3s;
+  display: none;
+}
+
+.tabs__text {
+  display: block;
+  padding: 30px;
+}
+
+#tabs__button--1:checked ~ #tabs__content--1,
+#tabs__button--2:checked ~ #tabs__content--2,
+#tabs__button--3:checked ~ #tabs__content--3 {
+  // height: auto;
+  // opacity: 1;
+  // pointer-events: auto;
+  // transform: translateX(0);
+
+  // & ~ .tabs__content {
+  //   transform: translateX(30%);
+  // }
+  display: block;
+}
